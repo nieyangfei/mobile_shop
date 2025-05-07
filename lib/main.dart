@@ -15,12 +15,52 @@ import 'package:flutter/material.dart';
  *
  */
 
+/**
+ * Main function, run the main widget.
+ */
 void main() {
-  runApp(const MaterialApp(title: 'Flutter Tutorial', home: TutorialHome()));
+  runApp(const MaterialApp(title: 'Flutter Tutorial', home: ShoppingAgent()));
 }
 
-class TutorialHome extends StatelessWidget {
-  const TutorialHome({super.key});
+/**
+ * Shopping agent. Flutter's design is to seperate widget and state.
+ */
+class ShoppingAgent extends StatefulWidget {
+  // This class is the configuration for the state.
+  // It holds the values (in this case nothing) provided
+  // by the parent and used by the build  method of the
+  // State. Fields in a Widget subclass are always marked
+  // "final".
+
+  const ShoppingAgent({super.key});
+
+  @override
+  State<ShoppingAgent> createState() => Shopping();
+}
+
+/**
+ * Shopping widget, which do the real shopping.
+ */
+class Shopping extends State<ShoppingAgent> {
+  // The shopping total money. Because I have different items, I must use one variable to store.
+  int totalMoney = 0;
+  // Click cart icon, then display shopping successful greeting message.
+  String greetBuying = "";
+
+  /* Increase total money.
+   */
+  void _increment(int money) {
+    setState(() {
+      // This call to setState tells the Flutter framework
+      // that something has changed in this State, which
+      // causes it to rerun the build method below so that
+      // the display can reflect the updated values. If you
+      // change _counter without calling setState(), then
+      // the build method won't be called again, and so
+      // nothing would appear to happen.
+      totalMoney += money;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,28 +83,95 @@ class TutorialHome extends StatelessWidget {
         ],
       ),
       // body is the majority of the screen.
-      body: Row(
+      body: Column(
         children: [
-          Column(
+          Row(
             children: [
-              Image.asset('assets/images/banana.png'),
-              Text('Dash 1'),
+              Column(
+                children: [
+                  Image.asset('assets/images/banana.png'),
+                  Row(
+                    children: [
+                      Text('Banada \$1'),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        color: Colors.blue,
+                        iconSize: 40,
+                        onPressed: () {
+                          print('Plus button clicked!');
+                          _increment(1);
+                          // You can add your own logic here
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
+              Column(
+                children: [
+                  Image.asset('assets/images/apple.png'),
+                  IconButton(
+                    icon: Icon(Icons.add),
+                    color: Colors.blue,
+                    iconSize: 40,
+                    onPressed: () {
+                      print('Plus button clicked!');
+                      _increment(2);
+                      // You can add your own logic here
+                    },
+                  ),
+                  Text('Apple \$2'),
+                ],
+              ),
+              Column(
+                children: [
+                  Image.asset('assets/images/strawberry.png'),
+                  IconButton(
+                    icon: Icon(Icons.add),
+                    color: Colors.blue,
+                    iconSize: 40,
+                    onPressed: () {
+                      print('Plus button clicked!');
+                      _increment(3);
+                      // You can add your own logic here
+                    },
+                  ),
+                  Text('Strawberry \$3'),
+                ],
+              ),
             ],
           ),
-          Column(
+          Row(
             children: [
-              Image.asset('assets/images/apple.png'),
-              Text('Dash 1'),
-            ],
-          ),
-          Column(
-            children: [
-              Image.asset('assets/images/strawberry.png'),
-              Text('Dash 1'),
+              IconButton(
+                icon: Icon(Icons.shopping_cart),
+                color: Colors.blue,
+                iconSize: 40,
+                onPressed: () {
+                  print('Plus button clicked!');
+                  setState(() {
+                    // This call to setState tells the Flutter framework
+                    // that something has changed in this State, which
+                    // causes it to rerun the build method below so that
+                    // the display can reflect the updated values. If you
+                    // change _counter without calling setState(), then
+                    // the build method won't be called again, and so
+                    // nothing would appear to happen.
+                    greetBuying =
+                        "           Thank you, purchase successful! Total payment is $totalMoney.";
+                  });
+
+                  // You can add your own logic here
+                },
+              ),
+              Text('$totalMoney'),
+              Text('$greetBuying'),
             ],
           ),
         ],
       ),
+
       floatingActionButton: const FloatingActionButton(
         tooltip: 'Add', // used by assistive technologies
         onPressed: null,
